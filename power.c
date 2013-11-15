@@ -80,10 +80,11 @@ static void sync_thread(int off)
         snprintf(data, MAX_LENGTH, "3:%d", client);
         rc = sendto(client_sockfd, data, strlen(data), 0, (const struct sockaddr *)&client_addr, sizeof(struct sockaddr_un));
     }
-
+#if 0
     if (rc < 0) {
         ALOGE("%s: failed to send: %s", __func__, strerror(errno));
     }
+#endif
 }
 
 static void enc_boost(int off)
@@ -106,10 +107,11 @@ static void enc_boost(int off)
         snprintf(data, MAX_LENGTH, "6:%d", client);
         rc = sendto(client_sockfd, data, strlen(data), 0, (const struct sockaddr *)&client_addr, sizeof(struct sockaddr_un));
     }
-
+#if 0
     if (rc < 0) {
         ALOGE("%s: failed to send: %s", __func__, strerror(errno));
     }
+#endif
 }
 
 static void process_video_encode_hint(void *metadata)
@@ -150,7 +152,9 @@ static void touch_boost()
     char data[MAX_LENGTH];
 
     if (client_sockfd < 0) {
+#if 0
         ALOGE("%s: boost socket not created", __func__);
+#endif
         return;
     }
 
@@ -158,9 +162,11 @@ static void touch_boost()
 
     snprintf(data, MAX_LENGTH, "1:%d", client);
     rc = sendto(client_sockfd, data, strlen(data), 0, (const struct sockaddr *)&client_addr, sizeof(struct sockaddr_un));
+#if 0
     if (rc < 0) {
         ALOGE("%s: failed to send: %s", __func__, strerror(errno));
     }
+#endif
 }
 
 static void power_set_interactive(struct power_module *module, int on)
@@ -173,8 +179,9 @@ static void power_set_interactive(struct power_module *module, int on)
         else
             last_state = on;
     }
-
+#if 0
     ALOGV("%s %s", __func__, (on ? "ON" : "OFF"));
+#endif
     if (on) {
         sync_thread(0);
         touch_boost();
